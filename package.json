@@ -1,0 +1,18 @@
+{
+  "type": "module",
+  "scripts": {
+    "compile": "scripts/compile.js src/*/**/*.sol",
+    "geth": "RPC_PORT=8222 ACCOUNTS=1 scripts/geth.js",
+    "test": "yarn _test \"src/*/**/*.test.js\"",
+    "_test": "yarn compile && yarn geth && RPC_PORT=$(printenv RPC_PORT || echo -n 8222) mocha --color --bail --exit --timeout=900000 $@",
+    "coverage": "yarn compile && develatus-apparatus",
+    "dist": "rollup -c rollup.config.js -f es -i src/levm/client/index.js -o dist/nutberry.js && scripts/fixBundle.js"
+  },
+  "devDependencies": {
+    "@aztec/protocol": "^1.7.0",
+    "aztec.js": "^0.18.0",
+    "ethers": "^5.0.2",
+    "mocha": "^8.0.1",
+    "solc": "=0.5.17"
+  }
+}
